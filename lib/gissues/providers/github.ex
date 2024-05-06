@@ -13,7 +13,7 @@ defmodule Gissues.Providers.Github do
     |> parse_response()
   end
 
-  def make_request(url) do
+  defp make_request(url) do
     {status_code, body} = request = HTTPoison.get(url, @user_agent)
 
     Logger.info("Got response: status code=#{status_code}")
