@@ -24,7 +24,8 @@ defmodule Gissues.MixProject do
     [
       {:httpoison, "~> 1.0.0"},
       {:poison, "~> 3.1"},
-      {:tabula, "~> 2.2.4"}
+      {:tabula, "~> 2.2.4"},
+      {:mox, "~> 0.5.2", only: :test}
     ]
   end
 
