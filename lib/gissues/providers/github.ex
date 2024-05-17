@@ -9,8 +9,6 @@ defmodule Gissues.Providers.Github do
     Logger.info("Fetching #{user}'s project #{project}")
 
     issues_url(user, project)
-
-    
     |> make_request()
     |> parse_response()
   end
@@ -28,5 +26,5 @@ defmodule Gissues.Providers.Github do
     {:ok, response}
   end
 
-  defp parse_response({:ok, %{status_code: _}}), do: :error
+  defp parse_response(_), do: :error
 end

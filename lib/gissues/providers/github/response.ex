@@ -1,12 +1,4 @@
 defmodule Gissues.Providers.Github.Response do
-  @moduledoc """
-  Parses and formats responses from GitHub issues.
-  """
-
-  @doc """
-  Formats a list of decoded issues into a structured list of maps.
-  """
-
   def parse(issues) do
     Enum.map(issues, &format_issue/1)
   end
