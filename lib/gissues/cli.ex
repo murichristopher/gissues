@@ -1,6 +1,5 @@
 defmodule Gissues.CLI do
   alias Gissues.Cli.MarkdownTable
-
   @default_issues_count 4
 
   def main(argv) do
@@ -23,13 +22,12 @@ defmodule Gissues.CLI do
     end
   end
 
-  defp extract_project_params(arg) do
-    case arg do
-      [user, project, count] -> {user, project, String.to_integer(count)}
-      [user, project] -> {user, project, @default_issues_count}
-      _ -> :help
-    end
-  end
+  defp extract_project_params([user, project, count]),
+    do: {user, project, String.to_integer(count)}
+
+  defp extract_project_params([user, project]), do: {user, project, @default_issues_count}
+
+  defp extract_project_params(_), do: :help
 
   defp process(:help) do
     IO.puts("""
@@ -38,18 +36,14 @@ defmodule Gissues.CLI do
   end
 
   defp process({user, project, count}) do
-    with {:ok, response} <- provider().fetch(user, project) do
-      response
-      |> Enum.sort_by(& &1.created_at, :desc)
-      |> Enum.take(count)
-      |> MarkdownTable.generate_issues_table()
-      |> IO.puts()
-    else
-      _ -> IO.puts("Error fetching issues")
-    end
-  end
+    case Gissues.fetch_issues(user, project, count) do
+      {:ok, issues} ->
+        issues
+        |> MarkdownTable.generate_issues_table()
+        |> IO.puts()
 
-  defp provider() do
-    Application.get_env(:gissues, :provider)
+      _ ->
+        IO.puts("Error fetching issues")
+    end
   end
 end
