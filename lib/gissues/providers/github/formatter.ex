@@ -1,7 +1,5 @@
-defmodule Gissues.Providers.Github.Response do
-  def parse(issues) do
-    Enum.map(issues, &format_issue/1)
-  end
+defmodule Gissues.Providers.Github.Formatter do
+  def format_issues(issues), do: Enum.map(issues, &format_issue/1)
 
   defp format_issue(issue) do
     %{
