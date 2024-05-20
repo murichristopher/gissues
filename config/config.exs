@@ -5,3 +5,5 @@ config :gissues, provider: Gissues.Providers.Github
 
 config :logger,
   compile: :compile_time_purge_matching
+
+config :gissues, :http_adapter, Gissues.Http.Client
