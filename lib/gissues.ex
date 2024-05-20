@@ -1,19 +1,14 @@
 defmodule Gissues do
-  # TODO: refactor main module
-  @moduledoc """
-  Documentation for `Gissues`.
-  """
+  def fetch_issues(user, project, count) do
+    with {:ok, response} <- provider().fetch(user, project) do
+      issues =
+        response
+        |> Enum.sort_by(& &1.created_at, :desc)
+        |> Enum.take(count)
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Gissues.hello()
-      :world
-
-  """
-  def hello do
-    :world
+      {:ok, issues}
+    end
   end
+
+  defp provider(), do: Application.get_env(:gissues, :provider)
 end
